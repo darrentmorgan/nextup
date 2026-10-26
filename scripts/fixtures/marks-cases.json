@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "rules": "docs/adr/0001-marks-format.md",
+  "semantics": "Merge incoming entries into current by per-item at, never file save time. Newer entries replace all action fields; existing keep survives. All times are epoch milliseconds. No equal-timestamp conflict policy is specified. Expired park entries remain stored but are not hidden or parked.",
+  "cases": [
+    {
+      "name": "phone Done adds an item without removing Mac marks",
+      "current": { "mac-item": { "dropped": true, "at": 1793008800000 } },
+      "incoming": { "phone-item": { "done": true, "at": 1793008860000 } },
+      "expected": { "mac-item": { "dropped": true, "at": 1793008800000 }, "phone-item": { "done": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "newer Mac Drop replaces phone Done rather than mixing fields",
+      "current": { "item": { "done": true, "at": 1793008800000 } },
+      "incoming": { "item": { "dropped": true, "at": 1793008860000 } },
+      "expected": { "item": { "dropped": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "newer phone Done replaces Mac Drop",
+      "current": { "item": { "dropped": true, "at": 1793008800000 } },
+      "incoming": { "item": { "done": true, "at": 1793008860000 } },
+      "expected": { "item": { "done": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "newer Park replaces Done and hides before its deadline",
+      "current": { "item": { "done": true, "at": 1793008800000 } },
+      "incoming": { "item": { "parkUntil": 1793012400000, "at": 1793008860000 } },
+      "expected": { "item": { "parkUntil": 1793012400000, "at": 1793008860000 } },
+      "observations": [
+        { "id": "item", "now": 1793012399999, "hidden": true, "parked": true, "kept": false, "countedDone": false },
+        { "id": "item", "now": 1793012400000, "hidden": false, "parked": false, "kept": false, "countedDone": false },
+        { "id": "item", "now": 1793012400001, "hidden": false, "parked": false, "kept": false, "countedDone": false }
+      ]
+    },
+    {
+      "name": "newer Undo is a timestamped tombstone",
+      "current": { "item": { "done": true, "at": 1793008800000 } },
+      "incoming": { "item": { "at": 1793008860000 } },
+      "expected": { "item": { "at": 1793008860000 } }
+    },
+    {
+      "name": "older phone Done cannot resurrect a newer Mac Undo",
+      "current": { "item": { "at": 1793008860000 } },
+      "incoming": { "item": { "done": true, "at": 1793008800000 } },
+      "expected": { "item": { "at": 1793008860000 } }
+    },
+    {
+      "name": "older Mac Undo cannot erase a newer phone Done",
+      "current": { "item": { "done": true, "at": 1793008860000 } },
+      "incoming": { "item": { "at": 1793008800000 } },
+      "expected": { "item": { "done": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "older phone Park cannot replace a newer Mac Drop",
+      "current": { "item": { "dropped": true, "at": 1793008860000 } },
+      "incoming": { "item": { "parkUntil": 1793012400000, "at": 1793008800000 } },
+      "expected": { "item": { "dropped": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "Keep survives Done",
+      "current": { "item": { "keep": true, "at": 1793008800000 } },
+      "incoming": { "item": { "done": true, "at": 1793008860000 } },
+      "expected": { "item": { "keep": true, "done": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "Keep survives Drop without retaining Done",
+      "current": { "item": { "keep": true, "done": true, "at": 1793008800000 } },
+      "incoming": { "item": { "dropped": true, "at": 1793008860000 } },
+      "expected": { "item": { "keep": true, "dropped": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "Keep survives Park without retaining Drop",
+      "current": { "item": { "keep": true, "dropped": true, "at": 1793008800000 } },
+      "incoming": { "item": { "parkUntil": 1793012400000, "at": 1793008860000 } },
+      "expected": { "item": { "keep": true, "parkUntil": 1793012400000, "at": 1793008860000 } }
+    },
+    {
+      "name": "Keep survives Undo without retaining Park",
+      "current": { "item": { "keep": true, "parkUntil": 1793012400000, "at": 1793008800000 } },
+      "incoming": { "item": { "at": 1793008860000 } },
+      "expected": { "item": { "keep": true, "at": 1793008860000 } }
+    },
+    {
+      "name": "legacy dropped plus done is hidden but never counted Done",
+      "current": { "legacy": { "done": true, "dropped": true, "at": 1793008800000 } },
+      "incoming": { "other": { "at": 1793008860000 } },
+      "expected": { "legacy": { "done": true, "dropped": true, "at": 1793008800000 }, "other": { "at": 1793008860000 } },
+      "observations": [
+        { "id": "legacy", "now": 1793008860000, "hidden": true, "parked": false, "kept": false, "countedDone": false }
+      ]
+    },
+    {
+      "name": "26 Oct lost-ticks regression: later Mac save preserves earlier phone ticks",
+      "note": "Synthetic regression, not a recovered incident payload. Phone ticks on 2026-10-26 precede a Mac save of an unrelated item; absent ids are not deletions.",
+      "current": {
+        "phone-tick-a": { "done": true, "at": 1793008800000 },
+        "phone-tick-b": { "keep": true, "done": true, "at": 1793008860000 },
+        "mac-item": { "parkUntil": 1793012400000, "at": 1793008740000 }
+      },
+      "incoming": { "mac-item": { "dropped": true, "at": 1793009400000 } },
+      "expected": {
+        "phone-tick-a": { "done": true, "at": 1793008800000 },
+        "phone-tick-b": { "keep": true, "done": true, "at": 1793008860000 },
+        "mac-item": { "dropped": true, "at": 1793009400000 }
+      }
+    },
+    {
+      "name": "later Mac file save does not make its stale per-item timestamp newer",
+      "current": { "phone-tick": { "done": true, "at": 1793008860000 } },
+      "incomingSavedAt": 1793009400000,
+      "incoming": { "phone-tick": { "at": 1793008800000 }, "mac-tick": { "done": true, "at": 1793009400000 } },
+      "expected": { "phone-tick": { "done": true, "at": 1793008860000 }, "mac-tick": { "done": true, "at": 1793009400000 } }
+    }
+  ]
+}

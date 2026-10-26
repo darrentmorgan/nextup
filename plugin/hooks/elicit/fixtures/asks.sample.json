@@ -1,0 +1,5 @@
+[
+  {"id":"choice","source":"probe","thread":"build","message":"Which task next?","schema":{"type":"object","properties":{"task":{"type":"string","enum":["test","build","review"],"default":"test"}},"required":["task"]},"askedAt":1800000000000,"timeoutSec":1200,"default":{"task":"test"},"safe":true,"neverAuto":false,"status":"waiting","at":1800000000000},
+  {"id":"approval","source":"probe","thread":"checks","message":"Run checks?","schema":{"type":"object","properties":{"approve":{"type":"boolean","default":true}},"required":["approve"]},"askedAt":1800000060000,"timeoutSec":1200,"default":{"approve":true},"safe":true,"neverAuto":false,"status":"waiting","at":1800000060000},
+  {"id":"text","source":"probe","thread":"planning","message":"Probe: what should next task be?","schema":{"type":"object","properties":{"answer":{"type":"string","title":"Answer"},"urgent":{"type":"boolean","title":"Urgent?"}},"required":["answer"]},"askedAt":1800000120000,"timeoutSec":1200,"safe":false,"neverAuto":true,"status":"waiting","at":1800000120000}
+]

@@ -1,0 +1,2 @@
+// Negative fixture for scripts/lint-press.mjs: a Button with a raw onPress. check.sh requires the lint to fail on it.
+export const Bad = () => <Button key="bad" label="Bad" onPress={() => { doThing() }} />

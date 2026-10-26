@@ -1,0 +1,36 @@
+{
+  "name": "nextup",
+  "version": "0.6.1",
+  "description": "Next up: open threads and today's plan, plus this session's turn, permissions, helpers, files touched and log, in one pane.",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "Darren Morgan",
+    "url": "https://github.com/darrentmorgan"
+  },
+  "userConfig": {
+    "dataDir": {
+      "title": "Data folder",
+      "description": "Folder holding the board's threads.json and notes.json (and optionally build.py, calendar.json, drafts.json). Leave empty to show this session's activity only.",
+      "type": "string",
+      "default": ""
+    },
+    "openOnStart": {
+      "title": "Open on start",
+      "description": "Open the Next up pane when a session starts. Turn off to open it only with /nextup.",
+      "type": "boolean",
+      "default": true
+    },
+    "dispatchDir": {
+      "title": "Worker dispatch folder",
+      "description": "Folder of the worker dispatch skill. When set, the Session tab shows a worker fast mode toggle. Leave empty to use DISPATCH_ROOT, or to hide the toggle.",
+      "type": "string",
+      "default": ""
+    },
+    "reloadHelper": {
+      "title": "Reload helper script",
+      "description": "Optional path to a script that updates plugins and reloads open sessions in place (takes --plugin ID --json). Leave empty to update the plugin and be told to type /reload-plugins.",
+      "type": "string",
+      "default": ""
+    }
+  }
+}

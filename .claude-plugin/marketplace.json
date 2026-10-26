@@ -1,0 +1,17 @@
+{
+  "name": "nextup",
+  "metadata": {
+    "description": "Next up: what to do next and what this session has done, in one pane beside the chat."
+  },
+  "owner": {
+    "name": "Darren Morgan",
+    "url": "https://github.com/darrentmorgan"
+  },
+  "plugins": [
+    {
+      "name": "nextup",
+      "source": "./plugin",
+      "description": "A pane with your open threads and today's plan, plus this session's log, files touched and shell commands."
+    }
+  ]
+}

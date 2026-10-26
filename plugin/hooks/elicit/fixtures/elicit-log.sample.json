@@ -1,0 +1,4 @@
+[
+  {"id":"previous-check","source":"probe","message":"Run checks?","status":"auto","answeredBy":"rule","content":{"approve":true},"waitedSec":0,"ruleId":"probe|boolean:approve|run checks","at":1800000000000},
+  {"id":"previous-choice","source":"probe","message":"Which task next?","status":"defaulted","answeredBy":"timeout","content":{"task":"test"},"waitedSec":1200,"at":1800000060000}
+]

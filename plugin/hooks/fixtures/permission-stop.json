@@ -1,0 +1,7 @@
+{
+  "session_id": "permission-session-a",
+  "hook_event_name": "Stop",
+  "transcript_path": "/example/session.jsonl",
+  "cwd": "/example/project",
+  "stop_hook_active": false
+}

@@ -1,0 +1,16 @@
+# Written by the engine when it hot-reloads the mod; not source.
+plugin/.claude-plugin/types/
+.DS_Store
+.claude/worktrees/
+
+# taste-skill working files
+.taste-skill/
+
+# Fixture browser captures and local tooling
+/capture-out/
+/scripts/capture/node_modules/
+/scripts/capture/.npm-cache/
+/scripts/capture/.browsers/
+/scripts/capture/.build/
+/scripts/capture/evidence/
+/.privacy-private-terms

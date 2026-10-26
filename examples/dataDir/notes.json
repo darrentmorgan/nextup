@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": "demo-note-1",
+      "title": "Review the example copy",
+      "text": "Keep the empty-state instructions short.",
+      "project": "Sample project",
+      "ticked": false,
+      "minutes": 5
+    }
+  ]
+}

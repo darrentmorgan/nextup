@@ -1,0 +1,11 @@
+{
+  "at": "2026-01-15T09:00:00Z",
+  "drafts": [
+    {
+      "id": "demo-draft-1",
+      "to": "Example recipient",
+      "subject": "Demo widget update",
+      "link": ""
+    }
+  ]
+}

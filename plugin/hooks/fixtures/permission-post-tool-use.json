@@ -1,0 +1,10 @@
+{
+  "session_id": "permission-session-a",
+  "hook_event_name": "PostToolUse",
+  "transcript_path": "/example/session.jsonl",
+  "cwd": "/example/project",
+  "tool_name": "Bash",
+  "tool_input": { "command": "echo fixture-only" },
+  "tool_response": "fixture-only",
+  "tool_use_id": "fixture-tool"
+}

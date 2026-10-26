@@ -1,0 +1,28 @@
+{
+  "generated": "2026-01-15T09:00:00Z",
+  "threads": [
+    {
+      "id": "demo-thread-1",
+      "title": "Polish the demo widget",
+      "project": "Sample project",
+      "finish": "Add a clear empty state and a test.",
+      "minutes": 20,
+      "progress": 50,
+      "link": "",
+      "link_label": "",
+      "resume": "",
+      "source": "example",
+      "status": "open",
+      "value": 5,
+      "last": "2026-01-15T08:30:00Z",
+      "rated": true,
+      "blocked": false,
+      "check": "verified",
+      "goal": "Make the widget understandable.",
+      "last_ask": "Check the empty state.",
+      "left_off": "The basic layout is ready.",
+      "branch": null,
+      "dirty": 0
+    }
+  ]
+}

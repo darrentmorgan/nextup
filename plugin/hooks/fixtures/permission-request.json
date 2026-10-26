@@ -1,0 +1,9 @@
+{
+  "session_id": "permission-session-a",
+  "hook_event_name": "PermissionRequest",
+  "transcript_path": "/example/session.jsonl",
+  "cwd": "/example/project",
+  "tool_name": "Bash",
+  "tool_input": { "command": "echo fixture-only" },
+  "permission_suggestions": []
+}
